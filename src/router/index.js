@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Todo from "../views/Todo.vue";
+import TodoView from "../views/TodoView.vue";
 import Calculator from "../views/Calculator.vue";
 
 Vue.use(VueRouter);
@@ -15,7 +15,7 @@ const routes = [
   {
     path: "/todos",
     name: "todos",
-    component: Todo
+    component: TodoView
   },
   {
     path: "/calculator",

@@ -277,7 +277,7 @@ export default {
 <style>
 .grey {
   background-color: darkgrey;
-  margin: 30px auto auto auto !important;
+  margin: -15px auto !important;
   width: 50%;
   min-height: 500px !important;
   border: 2px solid darkgrey;

@@ -2,7 +2,17 @@
   <section>
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">YOUR FAVOURITE WEB APPS WALLET</router-link>
+        <figure>
+          <img src="../assets/lion_tech_2_2x.png" alt="Logo" style="height: 55px" />
+        </figure>
+      </div>
+      <div class="navbar-menu">
+        <div class="navbar-start">
+          <router-link class="navbar-item" to="/">YOUR FAVOURITE WEB APPS WALLET</router-link>
+        </div>
+        <div class="navbar-end">
+          <router-link class="button is-success is-outlined navbar-item" to="/login">Login</router-link>
+        </div>
       </div>
     </nav>
 
@@ -189,5 +199,7 @@ input[type="checkbox"]:checked + div > .sidebarIconToggle > .diagonal.part-2 {
 #main {
   width: 100%;
   transition: transform 250ms ease-in-out;
+  position: absolute;
+  top: 60px;
 }
 </style>
