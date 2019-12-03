@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="box">
     <div class="title">{{appName}}</div>
   </div>
 </template>
@@ -10,5 +10,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.title {
+  color: #363636 !important;
+}
 </style>

@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import TodoView from "../views/TodoView.vue";
 import Calculator from "../views/Calculator.vue";
+import Trello from "../views/Trello.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/calculator",
     name: "calculator",
     component: Calculator
+  },
+  {
+    path: "/trello",
+    name: "trello",
+    component: Trello
   },
   {
     path: "/about",

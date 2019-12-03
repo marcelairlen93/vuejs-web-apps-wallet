@@ -1,16 +1,16 @@
 <template>
   <section>
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <figure>
-          <img src="../assets/lion_tech_2_2x.png" alt="Logo" style="height: 55px" />
-        </figure>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-start">
-          <router-link class="navbar-item" to="/">YOUR FAVOURITE WEB APPS WALLET</router-link>
+      <div class="columns is-vcentered">
+        <div class="column is-1 is-narrow">
+          <figure class="image is-32x32 is-pulled-right">
+            <img src="../assets/lion_tech_2_2x.png" alt="Logo" />
+          </figure>
         </div>
-        <div class="navbar-end">
+        <div class="column">
+          <router-link class="navbar-item" to="/" id="home-page">YOUR FAVOURITE WEB APPS WALLET</router-link>
+        </div>
+        <div class="column is-1 is-narrow">
           <router-link class="button is-success is-outlined navbar-item" to="/login">Login</router-link>
         </div>
       </div>
@@ -69,6 +69,9 @@ export default {
   overflow: hidden;
   z-index: 10;
 }
+.navbar > .columns {
+  width: 100%;
+}
 #sidebarMenu {
   height: 100%;
   position: fixed;
@@ -103,7 +106,7 @@ export default {
   color: rgba(255, 255, 255, 0.5);
 }
 .sidebarMenuInner li a,
-.navbar-brand a.navbar-item {
+#home-page {
   color: #fff;
   text-transform: uppercase;
   font-weight: bold;
@@ -111,16 +114,15 @@ export default {
   text-decoration: none;
 }
 
-.navbar-brand a.navbar-item {
+#home-page {
   font-size: x-large;
+  width: fit-content;
+  margin: auto;
 }
 
-.navbar-brand a.navbar-item:hover {
+#home-page:hover {
   color: #fff;
-}
-
-.navbar-brand {
-  margin: auto !important;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 input[type="checkbox"]:checked + div > #sidebarMenu {
@@ -199,7 +201,5 @@ input[type="checkbox"]:checked + div > .sidebarIconToggle > .diagonal.part-2 {
 #main {
   width: 100%;
   transition: transform 250ms ease-in-out;
-  position: absolute;
-  top: 60px;
 }
 </style>

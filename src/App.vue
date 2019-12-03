@@ -19,7 +19,10 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Varela+Round");
 html,
 body {
-  height: 100%;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 body {
   background: #fff;

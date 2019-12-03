@@ -4,12 +4,26 @@
       <div class="container">
         <div class="columns is-centered">
           <div class="column is-half">
-            <router-link class="button is-warning is-inverted is-outlined is-rounded is-medium is-fullwidth" to="/todos">Todo List</router-link>
+            <router-link
+              class="button is-warning is-inverted is-outlined is-rounded is-medium is-fullwidth"
+              to="/todos"
+            >Todo List</router-link>
           </div>
         </div>
         <div class="columns is-centered">
           <div class="column is-half">
-            <router-link class="button is-warning is-inverted is-outlined is-rounded is-medium is-fullwidth" to="/calculator">Calculadora</router-link>
+            <router-link
+              class="button is-warning is-inverted is-outlined is-rounded is-medium is-fullwidth"
+              to="/calculator"
+            >Calculadora</router-link>
+          </div>
+        </div>
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <router-link
+              class="button is-warning is-inverted is-outlined is-rounded is-medium is-fullwidth"
+              to="/trello"
+            >Trello</router-link>
           </div>
         </div>
       </div>

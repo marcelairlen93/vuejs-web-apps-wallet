@@ -1,10 +1,8 @@
 <template>
   <section class="hero is-fullheight" :class="colorClass">
     <div class="hero-body">
-      <div class="container">
-        <div class="box">
-          <slot></slot>
-        </div>
+      <div class="box">
+        <slot></slot>
       </div>
     </div>
   </section>
@@ -17,10 +15,13 @@ export default {
 </script>
 
 <style scoped>
-.box {
+.hero-body > .box {
   width: 100%;
-  min-height: 500px;
+  height: 500px !important;
   background-color: lightgoldenrodyellow;
   margin: -15px auto;
+}
+.hero-body {
+  margin-top: 60px;
 }
 </style>
