@@ -207,6 +207,13 @@ export default new Vuex.Store({
     },
     archiveList({ commit }, list) {
       commit("ARCHIVE_LIST", list);
+    },
+
+    getCard({ commit }, card) {
+      commit("GET_CARD", card);
+    },
+    addCard({ commit }, cardInfo) {
+      commit("ADD_CARD", cardInfo);
     }
   },
   getters: {
