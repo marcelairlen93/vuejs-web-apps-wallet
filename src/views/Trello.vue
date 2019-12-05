@@ -2,7 +2,7 @@
   <AppBoard colorClass="is-info is-bold">
     <AppHeader appName="Trello"></AppHeader>
     <AppContentBox>
-      <div class="tile is-ancestor">
+      <!-- <div class="tile is-ancestor">
         <div v-for="list in lists" :key="list.id" class="tile is-3 is-parent">
           <div class="tile is-child box card-list is-paddingless">
             <div class="subtitle">
@@ -47,16 +47,50 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
+      <TrelloBoard>
+        <TrelloList v-for="(list, id) in lists" :key="id" :title="list.title">
+          <TrelloCardList :listID="id"></TrelloCardList>
+          <TrelloAddNewCardButton
+            v-if="!cardModalIsOpen"
+            @click.native="openCardModal"
+            message="outro cartão"
+          ></TrelloAddNewCardButton>
+          <TrelloAddNewCardBox
+            v-else
+            modal="Cartão"
+            modalMessage="Insira um título para este cartão..."
+            :listID="id"
+          ></TrelloAddNewCardBox>
+        </TrelloList>
+        <TrelloAddNewList>
+          <TrelloAddNewListButton
+            v-if="!listModalIsOpen"
+            @click.native="openListModal"
+            message="outra lista"
+          ></TrelloAddNewListButton>
+          <TrelloAddNewListBox v-else modalMessage="Insira o título da lista..." modal="Lista"></TrelloAddNewListBox>
+        </TrelloAddNewList>
+      </TrelloBoard>
     </AppContentBox>
   </AppBoard>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import AppBoard from "@/components/AppBoard.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import AppContentBox from "@/components/AppContentBox.vue";
-import draggable from "vuedraggable";
+
+import TrelloBoard from "@/components/Trello/TrelloBoard.vue";
+import TrelloAddNewList from "@/components/Trello/TrelloAddNewList.vue";
+import TrelloAddNewListBox from "@/components/Trello/TrelloAddNewListBox.vue";
+import TrelloAddNewListButton from "@/components/Trello/TrelloAddNewListButton.vue";
+import TrelloAddNewCardButton from "@/components/Trello/TrelloAddNewCardButton.vue";
+import TrelloAddNewCardBox from "@/components/Trello/TrelloAddNewCardBox.vue";
+import TrelloList from "@/components/Trello/TrelloList.vue";
+import TrelloCardList from "@/components/Trello/TrelloCardList.vue";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -66,42 +100,42 @@ export default {
   components: {
     AppBoard,
     AppHeader,
-    AppContentBox
+    AppContentBox,
+    TrelloBoard,
+    TrelloList,
+    TrelloCardList,
+    TrelloAddNewList,
+    TrelloAddNewListButton,
+    TrelloAddNewListBox,
+    TrelloAddNewCardButton,
+    TrelloAddNewCardBox
   },
   data() {
     return {
-      createCard: false,
-      createList: false
+      addList: false
     };
   },
   methods: {
-    getList(e) {
-      return this.$store.dispatch("getList", e.target.value);
+    openListModal() {
+      return this.$store.dispatch("openNewListModal");
     },
-    addList() {
-      return this.$store.dispatch("addList");
-    },
-    uncheckAddListButton() {
-      this.addList();
-      this.createList = false;
+    openCardModal() {
+      return this.$store.dispatch("openNewCardModal");
     }
   },
   computed: {
-    lists() {
-      return this.$store.getters.lists;
-    },
-    newList() {
-      return this.$store.getters.newList;
-    }
+    ...mapGetters({
+      lists: "availableLists",
+      newList: "newList",
+      listModalIsOpen: "openListModal",
+      cardModalIsOpen: "openCardModal"
+    })
   }
 };
 </script>
 
 <style scoped>
-* {
-  color: #363636 !important;
-}
-.card-list {
+/* .card-list {
   height: fit-content;
   background-color: aliceblue;
 }
@@ -134,5 +168,5 @@ button.is-grey {
 }
 .button svg path {
   color: white !important;
-}
+} */
 </style>
