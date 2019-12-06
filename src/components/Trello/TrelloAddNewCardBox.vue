@@ -6,8 +6,8 @@
           <input
             type="text"
             class="input"
-            :value="newCard"
-            @change="getCard(newCard)"
+            :value="addNewCard"
+            @change="getCard"
             :placeholder="modalMessage"
           />
         </div>
@@ -35,8 +35,10 @@ library.add(faTimes);
 export default {
   props: ["modalMessage", "modal", "listID"],
   methods: {
-    getCard(value) {
-      return this.$store.dispatch("getCard", this.listID, value);
+    getCard(e) {
+      var value = e.target.value;
+      var id = this.listID;
+      return this.$store.dispatch("getCard", { listID: id, card: value });
     },
     addCard() {
       return this.$store.dispatch("addCard", this.listID);
@@ -46,8 +48,9 @@ export default {
     }
   },
   computed: {
-    newCard() {
-      return this.$store.getters.newCardOnList(this.listID);
+    addNewCard() {
+      var id = this.listID;
+      return this.$store.getters.newCardOnList(id);
     }
   }
 };

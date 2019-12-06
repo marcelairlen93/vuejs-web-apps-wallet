@@ -1,6 +1,6 @@
 <template>
   <AppBoard colorClass="is-info is-bold">
-    <AppHeader appName="Trello"></AppHeader>
+    <AppHeader appName="Trelloso"></AppHeader>
     <AppContentBox>
       <TrelloBoard>
         <TrelloList v-for="(list, id) in lists" :key="id" :title="list.title">
@@ -81,7 +81,7 @@ export default {
     ...mapGetters({
       lists: "availableLists",
       newList: "newList",
-      listModalIsOpen: "openListModal",
+      listModalIsOpen: "openListModal"
     }),
     cardModalIsOpen() {
       return listID => this.$store.getters.openCardModal(listID);

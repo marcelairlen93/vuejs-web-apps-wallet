@@ -102,8 +102,8 @@ export default new Vuex.Store({
       state.openNewListModal = !state.openNewListModal;
     },
 
-    GET_CARD(state, listID, card) {
-      state.lists[listID].newCard = card;
+    GET_CARD(state, cardData) {
+      state.lists[cardData.listID].newCard = cardData.card;
     },
     ADD_CARD(state, listID) {
       var cards = state.cards;
@@ -163,8 +163,8 @@ export default new Vuex.Store({
       commit("TOGGLE_MODAL_TO_NEW_LIST");
     },
 
-    getCard({ commit }, listID, card) {
-      commit("GET_CARD", listID, card);
+    getCard({ commit }, cardData) {
+      commit("GET_CARD", cardData);
     },
     addCard({ commit }, listID) {
       commit("ADD_CARD", listID);
