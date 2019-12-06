@@ -3,46 +3,28 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-function mapId(collection) {
-  if (collection instanceof Object && collection) {
-    const keys = Object.keys(collection);
-    var id = 1;
-    keys.forEach(key => {
-      if (parseInt(key) >= id) {
-        id = parseInt(key);
-      }
-    });
-
-    id += 1;
-    return id;
-  }
-
-  return null;
-}
-
 export default new Vuex.Store({
   state: {
     todos: [],
     newTodo: "",
 
-    lists: {
-      1: {
+    lists: [
+      {
+        id: 1,
         title: "Minha lista",
-        cards: [1],
+        cards: [2, 1],
         openNewCardModal: false,
         newCard: ""
       }
-    },
-    cards: {
-      1: {
-        title: "Teste",
-        description: "Card para teste"
-      },
-      2: {
+    ],
+    cards: [
+      { id: 1, title: "Teste", description: "Card para teste" },
+      {
+        id: 2,
         title: "Teste2",
         description: "Card para teste2"
       }
-    },
+    ],
     archivedLists: [],
     archivedCards: [],
     newList: "",
@@ -81,18 +63,13 @@ export default new Vuex.Store({
       state.newList = list;
     },
     ADD_LIST(state) {
-      var lists = state.lists;
-      state.lists = {
-        ...lists,
-        ...{
-          [mapId(lists)]: {
-            title: state.newList,
-            cards: [],
-            openNewCardModal: false,
-            newCard: ""
-          }
-        }
-      };
+      state.lists.push({
+        id: state.lists.length + 1,
+        title: state.newList,
+        cards: [],
+        openNewCardModal: false,
+        newCard: ""
+      });
       state.newList = "";
     },
     ARCHIVE_LIST(state, listID) {
@@ -101,32 +78,40 @@ export default new Vuex.Store({
     TOGGLE_MODAL_TO_NEW_LIST(state) {
       state.openNewListModal = !state.openNewListModal;
     },
+    UPDATE_LIST_POSITION(state, listOrder) {
+      state.lists = listOrder;
+    },
 
     GET_CARD(state, cardData) {
-      state.lists[cardData.listID].newCard = cardData.card;
+      state.lists.find(list => list.id == cardData.listID).newCard =
+        cardData.card;
     },
     ADD_CARD(state, listID) {
-      var cards = state.cards;
-      var cardID = mapId(cards);
-      var card = state.lists[listID].newCard;
-      state.cards = {
-        ...cards,
-        ...{
-          [cardID]: {
-            title: card,
-            description: ""
-          }
-        }
-      };
-      state.lists[listID].cards.push(cardID);
-      state.lists[listID].newCard = "";
+      var cardID = state.cards.length + 1;
+      var list = state.lists.find(list => list.id == listID);
+      state.cards.push({
+        id: cardID,
+        title: list.newCard,
+        description: ""
+      });
+      list.cards.push(cardID);
+      list.newCard = "";
     },
     ARCHIVE_CARD(state, cardID) {
       state.archivedCards.push(cardID);
     },
     TOGGLE_MODAL_TO_NEW_CARD(state, listID) {
-      state.lists[listID].openNewCardModal = !state.lists[listID]
+      state.lists.find(
+        list => list.id == listID
+      ).openNewCardModal = !state.lists.find(list => list.id == listID)
         .openNewCardModal;
+    },
+    UPDATE_CARD_POSITION(state, cardListData) {
+      var updatedCardList = [];
+      cardListData.updatedList.forEach(card => updatedCardList.push(card.id));
+      state.lists.find(
+        list => list.id == cardListData.listID
+      ).cards = updatedCardList;
     }
   },
   actions: {
@@ -162,6 +147,9 @@ export default new Vuex.Store({
     openNewListModal({ commit }) {
       commit("TOGGLE_MODAL_TO_NEW_LIST");
     },
+    updateListPosition({ commit }, listOrder) {
+      commit("UPDATE_LIST_POSITION", listOrder);
+    },
 
     getCard({ commit }, cardData) {
       commit("GET_CARD", cardData);
@@ -175,6 +163,9 @@ export default new Vuex.Store({
     },
     openNewCardModal({ commit }, listID) {
       commit("TOGGLE_MODAL_TO_NEW_CARD", listID);
+    },
+    updateCardPosition({ commit }, cardData) {
+      commit("UPDATE_CARD_POSITION", cardData);
     }
   },
   getters: {
@@ -190,24 +181,18 @@ export default new Vuex.Store({
 
     newList: state => state.newList,
     availableLists: state =>
-      Object.keys(state.lists)
-        .filter(list => !state.archivedLists.includes(list))
-        .reduce((obj, key) => {
-          obj[key] = state.lists[key];
-          return obj;
-        }, {}),
+      state.lists.filter(list => !state.archivedLists.includes(list.id)),
 
     openListModal: state => state.openNewListModal,
-    openCardModal: state => listID => state.lists[listID].openNewCardModal,
+    openCardModal: state => listID =>
+      state.lists.find(list => list.id == listID).openNewCardModal,
 
-    newCardOnList: state => listID => state.lists[listID].newCard,
+    newCardOnList: state => listID =>
+      state.lists.find(list => list.id == listID).newCard,
     cardsList: state => listID =>
-      state.lists[listID].cards
-        .filter(card => !state.archivedCards.includes(card))
-        .reduce((obj, key) => {
-          obj[key] = state.cards[key];
-          return obj;
-        }, {})
+      state.lists
+        .find(list => list.id == listID)
+        .cards.map(cardID => state.cards.find(card => card.id == cardID))
   },
   modules: {}
 });

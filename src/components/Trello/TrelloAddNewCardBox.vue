@@ -4,10 +4,11 @@
       <div class="field">
         <div class="control">
           <input
+            v-focus
             type="text"
             class="input"
             :value="addNewCard"
-            @change="getCard"
+            @input="getCard"
             :placeholder="modalMessage"
           />
         </div>
@@ -51,6 +52,13 @@ export default {
     addNewCard() {
       var id = this.listID;
       return this.$store.getters.newCardOnList(id);
+    }
+  },
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus();
+      }
     }
   }
 };

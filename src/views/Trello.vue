@@ -3,28 +3,30 @@
     <AppHeader appName="Trelloso"></AppHeader>
     <AppContentBox>
       <TrelloBoard>
-        <TrelloList v-for="(list, id) in lists" :key="id" :title="list.title">
-          <TrelloCardList :listID="id"></TrelloCardList>
-          <TrelloAddNewCardButton
-            v-if="!cardModalIsOpen(id)"
-            @click.native="openCardModal(id)"
-            message="outro cartão"
-          ></TrelloAddNewCardButton>
-          <TrelloAddNewCardBox
-            v-else
-            modal="Cartão"
-            modalMessage="Insira um título para este cartão..."
-            :listID="id"
-          ></TrelloAddNewCardBox>
-        </TrelloList>
-        <TrelloAddNewList>
-          <TrelloAddNewListButton
-            v-if="!listModalIsOpen"
-            @click.native="openListModal"
-            message="outra lista"
-          ></TrelloAddNewListButton>
-          <TrelloAddNewListBox v-else modalMessage="Insira o título da lista..." modal="Lista"></TrelloAddNewListBox>
-        </TrelloAddNewList>
+        <draggable class="tile" v-model="lists" group="boardLists" handle=".subtitle">
+          <TrelloList v-for="list in lists" :key="list.id" :title="list.title">
+            <TrelloCardList :listID="list.id"></TrelloCardList>
+            <TrelloAddNewCardButton
+              v-if="!cardModalIsOpen(list.id)"
+              @click.native="openCardModal(list.id)"
+              message="outro cartão"
+            ></TrelloAddNewCardButton>
+            <TrelloAddNewCardBox
+              v-else
+              modal="Cartão"
+              modalMessage="Insira um título para este cartão..."
+              :listID="list.id"
+            ></TrelloAddNewCardBox>
+          </TrelloList>
+          <TrelloAddNewList>
+            <TrelloAddNewListButton
+              v-if="!listModalIsOpen"
+              @click.native="openListModal"
+              message="outra lista"
+            ></TrelloAddNewListButton>
+            <TrelloAddNewListBox v-else modalMessage="Insira o título da lista..." modal="Lista"></TrelloAddNewListBox>
+          </TrelloAddNewList>
+        </draggable>
       </TrelloBoard>
     </AppContentBox>
   </AppBoard>
@@ -32,6 +34,8 @@
 
 <script>
 import { mapGetters } from "vuex";
+
+import draggable from "vuedraggable";
 
 import AppBoard from "@/components/AppBoard.vue";
 import AppHeader from "@/components/AppHeader.vue";
@@ -52,6 +56,7 @@ library.add(faPlus);
 
 export default {
   components: {
+    draggable,
     AppBoard,
     AppHeader,
     AppContentBox,
@@ -64,11 +69,6 @@ export default {
     TrelloAddNewCardButton,
     TrelloAddNewCardBox
   },
-  data() {
-    return {
-      addList: false
-    };
-  },
   methods: {
     openListModal() {
       return this.$store.dispatch("openNewListModal");
@@ -79,10 +79,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      lists: "availableLists",
       newList: "newList",
       listModalIsOpen: "openListModal"
     }),
+    lists: {
+      get() {
+        return this.$store.getters.availableLists;
+      },
+      set(val) {
+        this.$store.dispatch("updateListPosition", val);
+      }
+    },
     cardModalIsOpen() {
       return listID => this.$store.getters.openCardModal(listID);
     }

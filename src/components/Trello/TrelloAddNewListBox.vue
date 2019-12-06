@@ -4,6 +4,7 @@
       <div class="field">
         <div class="control">
           <input
+            v-focus
             type="text"
             class="input"
             :value="newList"
@@ -47,6 +48,13 @@ export default {
   },
   computed: {
     ...mapGetters(["newList"])
+  },
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus();
+      }
+    }
   }
 };
 </script>
