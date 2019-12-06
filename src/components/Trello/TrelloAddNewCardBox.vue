@@ -7,7 +7,7 @@
             type="text"
             class="input"
             :value="newCard"
-            @change="getCard"
+            @change="getCard(newCard)"
             :placeholder="modalMessage"
           />
         </div>
@@ -32,23 +32,23 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 
 library.add(faTimes);
 
-let self = this;
-
 export default {
   props: ["modalMessage", "modal", "listID"],
   methods: {
-    getCard(e) {
-      return this.$store.dispatch("getCard", e.target.value);
+    getCard(value) {
+      return this.$store.dispatch("getCard", this.listID, value);
     },
     addCard() {
       return this.$store.dispatch("addCard", this.listID);
     },
     closeModal() {
-      return this.$store.dispatch("openNewCardModal");
+      return this.$store.dispatch("openNewCardModal", this.listID);
     }
   },
   computed: {
-    ...mapGetters(["newCard"])
+    newCard() {
+      return this.$store.getters.newCardOnList(this.listID);
+    }
   }
 };
 </script>

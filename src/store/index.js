@@ -28,7 +28,9 @@ export default new Vuex.Store({
     lists: {
       1: {
         title: "Minha lista",
-        cards: [1]
+        cards: [1],
+        openNewCardModal: false,
+        newCard: ""
       }
     },
     cards: {
@@ -44,9 +46,7 @@ export default new Vuex.Store({
     archivedLists: [],
     archivedCards: [],
     newList: "",
-    newCard: "",
-    openNewListModal: false,
-    openNewCardModal: false
+    openNewListModal: false
   },
   mutations: {
     GET_TODO(state, todo) {
@@ -87,7 +87,9 @@ export default new Vuex.Store({
         ...{
           [mapId(lists)]: {
             title: state.newList,
-            cards: []
+            cards: [],
+            openNewCardModal: false,
+            newCard: ""
           }
         }
       };
@@ -100,29 +102,31 @@ export default new Vuex.Store({
       state.openNewListModal = !state.openNewListModal;
     },
 
-    GET_CARD(state, card) {
-      state.newCard = card;
+    GET_CARD(state, listID, card) {
+      state.lists[listID].newCard = card;
     },
     ADD_CARD(state, listID) {
       var cards = state.cards;
       var cardID = mapId(cards);
+      var card = state.lists[listID].newCard;
       state.cards = {
         ...cards,
         ...{
           [cardID]: {
-            title: state.newCard,
+            title: card,
             description: ""
           }
         }
       };
       state.lists[listID].cards.push(cardID);
-      state.newCard = "";
+      state.lists[listID].newCard = "";
     },
     ARCHIVE_CARD(state, cardID) {
       state.archivedCards.push(cardID);
     },
-    TOGGLE_MODAL_TO_NEW_CARD(state) {
-      state.openNewCardModal = !state.openNewCardModal;
+    TOGGLE_MODAL_TO_NEW_CARD(state, listID) {
+      state.lists[listID].openNewCardModal = !state.lists[listID]
+        .openNewCardModal;
     }
   },
   actions: {
@@ -159,18 +163,18 @@ export default new Vuex.Store({
       commit("TOGGLE_MODAL_TO_NEW_LIST");
     },
 
-    getCard({ commit }, card) {
-      commit("GET_CARD", card);
+    getCard({ commit }, listID, card) {
+      commit("GET_CARD", listID, card);
     },
     addCard({ commit }, listID) {
       commit("ADD_CARD", listID);
-      commit("TOGGLE_MODAL_TO_NEW_CARD");
+      commit("TOGGLE_MODAL_TO_NEW_CARD", listID);
     },
     archiveCard({ commit }, cardID) {
       commit("ARCHIVE_CARD", cardID);
     },
-    openNewCardModal({ commit }) {
-      commit("TOGGLE_MODAL_TO_NEW_CARD");
+    openNewCardModal({ commit }, listID) {
+      commit("TOGGLE_MODAL_TO_NEW_CARD", listID);
     }
   },
   getters: {
@@ -194,9 +198,9 @@ export default new Vuex.Store({
         }, {}),
 
     openListModal: state => state.openNewListModal,
-    openCardModal: state => state.openNewCardModal,
+    openCardModal: state => listID => state.lists[listID].openNewCardModal,
 
-    newCard: state => state.newCard,
+    newCardOnList: state => listID => state.lists[listID].newCard,
     cardsList: state => listID =>
       state.lists[listID].cards
         .filter(card => !state.archivedCards.includes(card))

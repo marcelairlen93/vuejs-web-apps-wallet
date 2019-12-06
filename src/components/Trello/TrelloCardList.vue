@@ -19,7 +19,9 @@ export default {
   },
   props: ["listID"],
   computed: {
-    ...mapGetters(["newCard"]),
+    newCard() {
+      return listID => this.$store.getters.newCardOnList(this.listID);
+    },
     cards() {
       return this.$store.getters.cardsList(this.listID);
     }

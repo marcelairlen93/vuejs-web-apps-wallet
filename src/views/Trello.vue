@@ -2,58 +2,12 @@
   <AppBoard colorClass="is-info is-bold">
     <AppHeader appName="Trello"></AppHeader>
     <AppContentBox>
-      <!-- <div class="tile is-ancestor">
-        <div v-for="list in lists" :key="list.id" class="tile is-3 is-parent">
-          <div class="tile is-child box card-list is-paddingless">
-            <div class="subtitle">
-              <h2>{{list.title}}</h2>
-            </div>
-            <div class="content is-marginless">
-              <ul>
-                <div>
-                  <li v-for="card in list.cards" :key="card.id" class="box">{{card.title}}</li>
-                </div>
-              </ul>
-            </div>
-            <button class="button is-fullwidth is-grey">
-              <font-awesome-icon icon="plus" pull="left" :style="{color: 'white'}"></font-awesome-icon>Adicionar cartão
-            </button>
-          </div>
-        </div>
-        <div class="tile is-3 is-parent">
-          <div v-if="!createList" class="tile is-child">
-            <button @click="createList = !createList" class="button is-fullwidth is-grey">
-              <font-awesome-icon icon="plus" pull="left"></font-awesome-icon>Adicionar outra lista
-            </button>
-          </div>
-          <div v-else class="tile is-child box card-list" id="addList">
-            <div class="content">
-              <div class="field">
-                <div class="control">
-                  <input
-                    type="text"
-                    class="input"
-                    :value="newList"
-                    @change="getList"
-                    placeholder="Insira o título da lista..."
-                  />
-                </div>
-              </div>
-              <div class="field is-grouped">
-                <div class="control">
-                  <button @click="uncheckAddListButton" class="button is-success">Adicionar Lista</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>-->
       <TrelloBoard>
         <TrelloList v-for="(list, id) in lists" :key="id" :title="list.title">
           <TrelloCardList :listID="id"></TrelloCardList>
           <TrelloAddNewCardButton
-            v-if="!cardModalIsOpen"
-            @click.native="openCardModal"
+            v-if="!cardModalIsOpen(id)"
+            @click.native="openCardModal(id)"
             message="outro cartão"
           ></TrelloAddNewCardButton>
           <TrelloAddNewCardBox
@@ -119,8 +73,8 @@ export default {
     openListModal() {
       return this.$store.dispatch("openNewListModal");
     },
-    openCardModal() {
-      return this.$store.dispatch("openNewCardModal");
+    openCardModal(listID) {
+      return this.$store.dispatch("openNewCardModal", listID);
     }
   },
   computed: {
@@ -128,8 +82,10 @@ export default {
       lists: "availableLists",
       newList: "newList",
       listModalIsOpen: "openListModal",
-      cardModalIsOpen: "openCardModal"
-    })
+    }),
+    cardModalIsOpen() {
+      return listID => this.$store.getters.openCardModal(listID);
+    }
   }
 };
 </script>
