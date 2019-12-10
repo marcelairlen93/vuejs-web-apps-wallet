@@ -10,7 +10,7 @@ export default {};
 
 <style scoped>
 #content-box {
-  height: calc(100% - 110px);
+  height: calc(100% - 100px);
   overflow-x: auto;
   overflow-y: hidden;
 }

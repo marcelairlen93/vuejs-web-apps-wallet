@@ -1,5 +1,5 @@
 <template>
-  <div class="tile is-child">
+  <div class="tile" id="addList">
     <button class="button is-fullwidth is-grey">
       <font-awesome-icon icon="plus" pull="left"></font-awesome-icon>
       Adicionar {{message}}
@@ -18,9 +18,19 @@ export default {
 </script>
 
 <style scoped>
+.tile {
+  width: 100%;
+}
 button.is-grey {
   background-color: darkgrey;
   color: white !important;
+  border: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+button.is-grey:focus {
+  box-shadow: none;
+  border: none;
 }
 .button svg path {
   color: white !important;

@@ -12,7 +12,7 @@ export default new Vuex.Store({
       {
         id: 1,
         title: "Minha lista",
-        cards: [2, 1],
+        cards: [1, 2],
         openNewCardModal: false,
         newCard: ""
       }
@@ -21,6 +21,56 @@ export default new Vuex.Store({
       { id: 1, title: "Teste", description: "Card para teste" },
       {
         id: 2,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 3,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 4,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 5,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 6,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 7,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 8,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 9,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 10,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 11,
+        title: "Teste2",
+        description: "Card para teste2"
+      },
+      {
+        id: 12,
         title: "Teste2",
         description: "Card para teste2"
       }

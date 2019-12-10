@@ -2,32 +2,30 @@
   <AppBoard colorClass="is-info is-bold">
     <AppHeader appName="Trelloso"></AppHeader>
     <AppContentBox>
-      <TrelloBoard>
-        <draggable class="tile" v-model="lists" group="boardLists" handle=".subtitle">
-          <TrelloList v-for="list in lists" :key="list.id" :title="list.title">
-            <TrelloCardList :listID="list.id"></TrelloCardList>
-            <TrelloAddNewCardButton
-              v-if="!cardModalIsOpen(list.id)"
-              @click.native="openCardModal(list.id)"
-              message="outro cartão"
-            ></TrelloAddNewCardButton>
-            <TrelloAddNewCardBox
-              v-else
-              modal="Cartão"
-              modalMessage="Insira um título para este cartão..."
-              :listID="list.id"
-            ></TrelloAddNewCardBox>
-          </TrelloList>
-          <TrelloAddNewList>
-            <TrelloAddNewListButton
-              v-if="!listModalIsOpen"
-              @click.native="openListModal"
-              message="outra lista"
-            ></TrelloAddNewListButton>
-            <TrelloAddNewListBox v-else modalMessage="Insira o título da lista..." modal="Lista"></TrelloAddNewListBox>
-          </TrelloAddNewList>
-        </draggable>
-      </TrelloBoard>
+      <draggable class="tile is-ancestor" v-model="lists" group="boardLists" draggable=".draggable">
+        <TrelloList v-for="list in lists" :key="list.id" :title="list.title" class="draggable">
+          <TrelloCardList :listID="list.id"></TrelloCardList>
+          <TrelloAddNewCardButton
+            v-if="!cardModalIsOpen(list.id)"
+            @click.native="openCardModal(list.id)"
+            message="outro cartão"
+          ></TrelloAddNewCardButton>
+          <TrelloAddNewCardBox
+            v-else
+            modal="Cartão"
+            modalMessage="Insira um título para este cartão..."
+            :listID="list.id"
+          ></TrelloAddNewCardBox>
+        </TrelloList>
+        <TrelloAddNewList>
+          <TrelloAddNewListButton
+            v-if="!listModalIsOpen"
+            @click.native="openListModal"
+            message="outra lista"
+          ></TrelloAddNewListButton>
+          <TrelloAddNewListBox v-else modalMessage="Insira o título da lista..." modal="Lista"></TrelloAddNewListBox>
+        </TrelloAddNewList>
+      </draggable>
     </AppContentBox>
   </AppBoard>
 </template>
@@ -41,7 +39,6 @@ import AppBoard from "@/components/AppBoard.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import AppContentBox from "@/components/AppContentBox.vue";
 
-import TrelloBoard from "@/components/Trello/TrelloBoard.vue";
 import TrelloAddNewList from "@/components/Trello/TrelloAddNewList.vue";
 import TrelloAddNewListBox from "@/components/Trello/TrelloAddNewListBox.vue";
 import TrelloAddNewListButton from "@/components/Trello/TrelloAddNewListButton.vue";
@@ -60,7 +57,6 @@ export default {
     AppBoard,
     AppHeader,
     AppContentBox,
-    TrelloBoard,
     TrelloList,
     TrelloCardList,
     TrelloAddNewList,
@@ -98,38 +94,7 @@ export default {
 </script>
 
 <style scoped>
-/* .card-list {
-  height: fit-content;
-  background-color: aliceblue;
+.is-ancestor {
+  height: calc(100% + 20px) !important;
 }
-#addList {
-  height: fit-content;
-}
-.content {
-  max-height: 100%;
-  overflow-y: auto;
-  margin-right: 5px !important;
-}
-.content ul {
-  margin: 5px 0;
-  max-height: 225px;
-}
-.subtitle {
-  padding: 5px 20px 0;
-  margin: 5px 0 0 0 !important;
-}
-li.box {
-  margin: 5px 5px 5px 10px;
-  padding: 10px;
-}
-li.box:not(:last-child) {
-  margin-bottom: 10px;
-}
-button.is-grey {
-  background-color: darkgrey;
-  color: white !important;
-}
-.button svg path {
-  color: white !important;
-} */
 </style>

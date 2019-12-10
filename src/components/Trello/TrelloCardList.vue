@@ -1,12 +1,12 @@
 <template>
   <div class="content is-marginless">
-    <ul>
-      <div>
-        <draggable v-model="cards" group="cardsList">
-          <TrelloCard v-for="card in cards" :key="card.id" :title="card.title"></TrelloCard>
-        </draggable>
-      </div>
-    </ul>
+    <!-- <ul>
+    <div>-->
+    <draggable tag="ul" v-model="cards" group="cardsList">
+      <TrelloCard v-for="card in cards" :key="card.id" :title="card.title"></TrelloCard>
+    </draggable>
+    <!-- </div>
+    </ul>-->
   </div>
 </template>
 
@@ -43,13 +43,16 @@ export default {
 
 <style scoped>
 .content {
-  max-height: 100%;
+  height: auto !important;
+  max-height: 90% !important;
   overflow-y: auto;
   margin-right: 5px !important;
+  clear: both;
 }
 .content ul {
   margin: 5px 0;
-  max-height: 225px;
+  /* max-height: 100% !important;
+  height: fit-content !important; */
 }
 li.box {
   margin: 5px 5px 5px 10px;

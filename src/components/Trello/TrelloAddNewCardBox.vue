@@ -1,5 +1,5 @@
 <template>
-  <div class="tile is-child box card-list" id="addList">
+  <div class="tile card-list" id="addList">
     <div class="content">
       <div class="field">
         <div class="control">
@@ -28,10 +28,10 @@
 <script>
 import { mapGetters } from "vuex";
 
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
-library.add(faTimes);
+library.add(faTimes, faEllipsisH);
 
 export default {
   props: ["modalMessage", "modal", "listID"],
@@ -70,11 +70,15 @@ export default {
 }
 .card-list {
   height: fit-content;
-  padding: 5px;
+  padding: 5px 10px;
   background-color: aliceblue;
 }
 #addList {
   height: fit-content;
+  width: 100%;
+}
+.content {
+  width: 100%;
 }
 svg path {
   color: darkgrey;

@@ -30,4 +30,10 @@ body {
   margin: 0;
   font-family: "Varela Round", sans-serif !important;
 }
+.is-borderless {
+  border: none !important;
+}
+#home-page:focus {
+  background: transparent !important;
+}
 </style>
